@@ -44,6 +44,8 @@ when using `keepalived_install_method: native`
 * `keepalived_global_defs_enable_script_security`: [optional]: Don't run scripts configured to be run as `root` if any part of the path is writable by a `non-root` user (since `1.3.0`, e.g. `true`)
 * `keepalived_global_defs_raw`: [optional]: An optional list of raw parameters to add to the `global_defs` config section
 
+* `keepalived_static_routes`: [default: `{}`]: Static routes
+
 * `keepalived_vrrp_script_map`: [default: `{}`]: Script declarations
 * `keepalived_vrrp_script_map.key`: [required]: The identifier of the file (e.g. `check-haproxy`)
 * `keepalived_vrrp_script_map.key.src`: [required]: The local path of the file to copy, can be absolute or relative (e.g. `../../../files/keepalived/usr/local/bin/check-haproxy`)
@@ -86,6 +88,7 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
 * `keepalived_vrrp_instances.key.virtual_ipaddresses`: VRRP IP address block
 * `keepalived_vrrp_instances.key.virtual_ipaddresses_excluded`: IP address block, which is not included in the VRRP packet itself, in order to support more than 20 ips
+* `keepalived_vrrp_instances.key.virtual_routes`: VRRP routes block
 * `keepalived_vrrp_instances.key.nopreempt`: [optional]: VRRP will normally preempt a lower priority machine when a higher priority machine comes online. This option allows the lower priority machine to maintain the master role, even when a higher priority machine comes back online. **NOTE:** For this to work, the initial state of this entry must be `BACKUP`
 * `keepalived_vrrp_instances.key.preempt_delay`: [optional]: Seconds after startup until preemption (if not disabled by `nopreempt`). Range: 0 (default) to 1000 **NOTE:** For this to work, the initial state of this entry must be BACKUP
 * `keepalived_vrrp_instances.key.track_interfaces`: [optional]: Interface states we monitor

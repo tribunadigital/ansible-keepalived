@@ -21,6 +21,14 @@ global_defs {
 {% endfor %}
 }
 
+{% if keepalived_static_routes is defined %}
+static_routes {
+{% for static_route in keepalived_static_routes %}
+  {{ static_route }}
+{% endfor %}
+}
+{% endif %}
+
 {% for key, value in keepalived_vrrp_scripts.items() | sort %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
@@ -106,6 +114,14 @@ vrrp_instance {{ key }} {
   virtual_ipaddress_excluded {
 {% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
     {{ virtual_ipaddress }}
+{% endfor %}
+  }
+{% endif %}
+
+{% if value.virtual_routes is defined %}
+  virtual_routes {
+{% for virtual_route in value.virtual_routes %}
+    {{ virtual_route }}
 {% endfor %}
   }
 {% endif %}
