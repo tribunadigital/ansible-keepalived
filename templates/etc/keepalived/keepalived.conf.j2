@@ -18,6 +18,14 @@ global_defs {
 {% endif %}
 }
 
+{% if keepalived_static_routes is defined %}
+static_routes {
+{% for static_route in keepalived_static_routes %}
+  {{ static_route }}
+{% endfor %}
+}
+{% endif %}
+
 {% for key, value in keepalived_vrrp_scripts.items() %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
@@ -66,6 +74,14 @@ vrrp_instance {{ key }} {
     {{ virtual_ipaddress }}
 {% endfor %}
   }
+
+{% if value.virtual_routes is defined %}
+  virtual_routes {
+{% for virtual_route in value.virtual_routes %}
+    {{ virtual_route }}
+{% endfor %}
+  }
+{% endif %}
 
 {% if value.nopreempt is defined and value.nopreempt | bool %}
   nopreempt
