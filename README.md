@@ -1,6 +1,7 @@
 ## keepalived
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/Oefenweb/keepalived)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/Oefenweb/keepalived)
 
 Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Debian-like systems.
 
@@ -17,6 +18,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 
 * `keepalived_use_distro`: [default: `true`]: Use keepalived provided by the distro's package manager, instead of building it from sources.
 
+* `keepalived_git_repo`: [default: `https://github.com/acassen/keepalived.git`]: Keepalived git repo
 * `keepalived_version`: [default: `v2.0.11`]: Keepalived version to install
 
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
@@ -64,11 +66,12 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.virtual_router_id`: Arbitrary unique number (`0...255`) used to differentiate multiple instances of VRRPD running on the same NIC (and hence same socket)
 * `keepalived_vrrp_instances.key.advert_int`: [optional]: The advert interval in seconds
 * `keepalived_vrrp_instances.key.smtp_alert`: [optional]: Whether or not to send email notifications during state transitioning-
-* `keepalived_vrrp_instances.key.authentication`: Authentication block
+* `keepalived_vrrp_instances.key.authentication`: [optional]: Authentication block
 * `keepalived_vrrp_instances.key.authentication.auth_type`: Simple password or IPSEC AH (`PASS|AH`)
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
 * `keepalived_vrrp_instances.key.virtual_ipaddresses`: VRRP IP address block
 * `keepalived_vrrp_instances.key.virtual_routes`: VRRP routes block
+* `keepalived_vrrp_instances.key.virtual_ipaddresses_excluded`: IP address block, which is not included in the VRRP packet itself, in order to support more than 20 ips
 * `keepalived_vrrp_instances.key.nopreempt`: [optional]: VRRP will normally preempt a lower priority machine when a higher priority machine comes online. This option allows the lower priority machine to maintain the master role, even when a higher priority machine comes back online. **NOTE:** For this to work, the initial state of this entry must be `BACKUP`
 * `keepalived_vrrp_instances.key.preempt_delay`: [optional]: Seconds after startup until preemption (if not disabled by `nopreempt`). Range: 0 (default) to 1000 **NOTE:** For this to work, the initial state of this entry must be BACKUP
 * `keepalived_vrrp_instances.key.track_scripts`: Scripts state we monitor
@@ -82,6 +85,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
 * `keepalived_vrrp_instances.key.notify_master_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
 * `keepalived_vrrp_instances.key.unicast_peer`: [optional]: IP address of aired unicast address (if you don't want to use multicast)
+
 #### Dependencies
 
 None
