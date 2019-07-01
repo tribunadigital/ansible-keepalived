@@ -106,6 +106,9 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
+{% if value.unicast_src_ip is defined %}
+  unicast_src_ip {{ value.unicast_src_ip }}
+{% endif %}
 {% if value.unicast_peer is defined %}
   unicast_peer {
     {{ value.unicast_peer }}

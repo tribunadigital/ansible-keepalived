@@ -84,6 +84,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.notify_fault_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
 * `keepalived_vrrp_instances.key.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
 * `keepalived_vrrp_instances.key.notify_master_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
+* `keepalived_vrrp_instances.key.unicast_src_ip`: [optional]:  IP address of the interface keepalived listens on (if you don't want to use multicast)
 * `keepalived_vrrp_instances.key.unicast_peer`: [optional]: IP address of aired unicast address (if you don't want to use multicast)
 
 #### Dependencies
