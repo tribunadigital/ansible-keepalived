@@ -7,6 +7,6 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart keepalived
+  notify: reload keepalived
   tags:
     - keepalived-service-upstart-update

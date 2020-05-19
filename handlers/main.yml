@@ -1,7 +1,7 @@
 # handlers file for keepalived
 ---
-- name: restart keepalived
+- name: reload keepalived
   service:
     name: keepalived
-    state: restarted
+    state: reloaded
   when: service_default_state | default('started') == 'started'
