@@ -1,13 +1,14 @@
-# defaults file for keepalived
+# defaults file
 ---
-keepalived_use_distro: true
+keepalived_install_method: git
 keepalived_git_repo: https://github.com/acassen/keepalived.git
-keepalived_version: v2.0.11
+keepalived_version: v2.2.2
 keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
+keepalived_install_systemd_file: true
 
-keepalived_ip_nonlocal_bind: 1
+keepalived_ip_nonlocal_bind: '1'
 
 keepalived_create_keepalived_script_user: false
 
@@ -20,5 +21,6 @@ keepalived_global_defs_smtp_connect_timeout: 30
 keepalived_vrrp_script_map: {}
 
 keepalived_vrrp_scripts: {}
+keepalived_vrrp_track_processes: {}
 
 keepalived_vrrp_instances: {}

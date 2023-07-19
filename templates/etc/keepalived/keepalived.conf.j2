@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 global_defs {
   notification_email {
@@ -16,6 +16,9 @@ global_defs {
 {% if keepalived_global_defs_enable_script_security is defined and keepalived_global_defs_enable_script_security | bool %}
   enable_script_security
 {% endif %}
+{% for global_def_raw in keepalived_global_defs_raw | default([]) %}
+  {{ global_def_raw }}
+{% endfor %}
 }
 
 {% if keepalived_static_routes is defined %}
@@ -26,7 +29,7 @@ static_routes {
 }
 {% endif %}
 
-{% for key, value in keepalived_vrrp_scripts.items() %}
+{% for key, value in keepalived_vrrp_scripts.items() | sort %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
 {% if value.weight is defined %}
@@ -50,7 +53,37 @@ vrrp_script {{ key }} {
 }
 {% endfor %}
 
-{% for key, value in keepalived_vrrp_instances.items() %}
+{% for key, value in keepalived_vrrp_track_processes.items() | sort %}
+vrrp_track_process {{ key }} {
+  process {{ value.process }}
+{% if value.param_match is defined %}
+  param_match {{ value.param_match }}
+{% endif %}
+{% if value.weight is defined %}
+  weight {{ value.weight }}
+{% endif %}
+{% if value.quorum is defined %}
+  quorum {{ value.quorum }}
+{% endif %}
+{% if value.quorum_max is defined %}
+  quorum_max {{ value.quorum_max }}
+{% endif %}
+{% if value.fork_delay is defined %}
+  fork_delay {{ value.fork_delay }}
+{% endif %}
+{% if value.terminate_delay is defined %}
+  terminate_delay {{ value.terminate_delay }}
+{% endif %}
+{% if value.delay is defined %}
+  delay {{ value.delay }}
+{% endif %}
+{% if value.full_command is defined and value.full_command | bool %}
+  full_command
+{% endif %}
+}
+{% endfor %}
+
+{% for key, value in keepalived_vrrp_instances.items() | sort %}
 vrrp_instance {{ key }} {
   interface {{ value.interface }}
   state {{ value.state }}
@@ -93,6 +126,14 @@ vrrp_instance {{ key }} {
   }
 {% endif %}
 
+{% if value.virtual_routes is defined %}
+  virtual_routes {
+{% for virtual_route in value.virtual_routes %}
+    {{ virtual_route }}
+{% endfor %}
+  }
+{% endif %}
+
 {% if value.nopreempt is defined and value.nopreempt | bool %}
   nopreempt
 {% endif %}
@@ -100,18 +141,46 @@ vrrp_instance {{ key }} {
   preempt_delay {{ value.preempt_delay }}
 {% endif %}
 
+{% if value.track_interfaces is defined %}
+  track_interface {
+{% for track_interface in value.track_interfaces %}
+    {{ track_interface }}
+{% endfor %}
+  }
+{% endif %}
+
+{% if value.track_scripts is defined %}
   track_script {
 {% for track_script in value.track_scripts %}
     {{ track_script }}
 {% endfor %}
   }
+{% endif %}
+
+{% if value.track_processes is defined %}
+  track_process {
+{% for track_process in value.track_processes %}
+    {{ track_process }}
+{% endfor %}
+  }
+{% endif %}
+
+{% if value.vmac_xmit_base is defined and value.vmac_xmit_base | bool %}
+  vmac_xmit_base
+{% endif %}
 
 {% if value.unicast_src_ip is defined %}
   unicast_src_ip {{ value.unicast_src_ip }}
 {% endif %}
 {% if value.unicast_peer is defined %}
   unicast_peer {
+{% if value.unicast_peer is string %}
     {{ value.unicast_peer }}
+{% else %}
+{% for peer in value.unicast_peer %}
+    {{ peer }}
+{% endfor%}
+{% endif %}
   }
 {% endif %}
 
@@ -127,5 +196,8 @@ vrrp_instance {{ key }} {
 {% if value.notify_master is defined %}
   notify_master "{{ value.notify_master }}" {{ value.notify_master_user | default('') }}
 {% endif %}
+{% for raw_option in value.raw_options | default([]) %}
+  {{ raw_option }}
+{% endfor %}
 }
 {% endfor %}
