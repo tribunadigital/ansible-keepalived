@@ -13,7 +13,7 @@
     - keepalived-install-additional
 
 - name: install | git
-  include: git.yml
+  import_tasks: git.yml
   when: keepalived_install_method == 'git'
   tags:
     - configuration
@@ -22,7 +22,7 @@
     - keepalived-install-git
 
 - name: install | native
-  include: native.yml
+  import_tasks: native.yml
   when: keepalived_install_method == 'native'
   tags:
     - configuration
@@ -118,7 +118,7 @@
     - keepalived
     - keepalived-scripts
 
-- include: service-upstart.yml
+- import_tasks: service-upstart.yml
   when: ansible_service_mgr != 'systemd'
   tags:
     - configuration
@@ -126,7 +126,7 @@
     - keepalived-service
     - keepalived-service-upstart
 
-- include: service-systemd.yml
+- import_tasks: service-systemd.yml
   when: ansible_service_mgr == 'systemd'
   tags:
     - configuration
